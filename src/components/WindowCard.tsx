@@ -1,98 +1,101 @@
-import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-
-// Custom marker for user's location
-const customIcon = new L.Icon({
-  iconUrl: 'https://i.imgur.com/lnbx41i.png', // Replace with your custom user icon URL
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -40],
-});
-
-// Custom marker for gas stations
-const gasStationIcon = new L.Icon({
-  iconUrl: 'https://i.imgur.com/2HImCfx.png', // Custom gas station icon URL
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -40],
-});
+import React, { useState, useEffect, useRef } from 'react';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 interface WindowCardProps {
   title: string;
-  onStationClick: (prices: any) => void; // Callback to send fuel prices to parent
+  onStationClick: (prices: Record<string, number>) => void;
+}
+
+interface Station {
+  lat: number;
+  lon: number;
+  tags: {
+    name?: string;
+  };
 }
 
 const WindowCard: React.FC<WindowCardProps> = ({ title, onStationClick }) => {
-  const [position, setPosition] = useState<[number, number] | null>(null);
-  const [stations, setStations] = useState<any[]>([]);
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<mapboxgl.Map | null>(null);
+  const [stations, setStations] = useState<Station[]>([]);
+
+  const customGasIcon = {
+    iconImage: 'https://i.imgur.com/2HImCfx.png',
+    iconSize: [40, 40] as [number, number], // Fix the tuple type for iconSize
+  };
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const { latitude, longitude } = pos.coords;
-      setPosition([latitude, longitude]);
+    if (!mapContainerRef.current) return;
 
-      // Fetch gas stations nearby using Overpass API
-      const overpassUrl = `https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=fuel](around:5000,${latitude},${longitude});out;`;
+    mapboxgl.accessToken = 'pk.eyJ1IjoieW9ldm0iLCJhIjoiY20xeW1wNG9sMGJmZzJxb2g2aDVoaXdwdyJ9.a1Zzrl7f94l0Uzix36S4ig';
 
-      fetch(overpassUrl)
-        .then((res) => res.json())
-        .then((data) => {
-          setStations(data.elements);
-        })
-        .catch((err) => console.error(err));
+    // Initialize the Mapbox map inside WindowCard
+    mapRef.current = new mapboxgl.Map({
+      container: mapContainerRef.current,
+      style: 'mapbox://styles/mapbox/dark-v10',
+      center: [-104.9903, 39.7392],
+      zoom: 12,
+      pitch: 60,
+      bearing: -10,
     });
+
+    mapRef.current.on('load', () => {
+      fetchGasStations(); // Fetch gas stations data when the map is loaded
+    });
+
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+      }
+    };
   }, []);
 
-  const handleStationClick = (station: any) => {
-    // Mock fuel prices for each station (replace with real API call)
-    const fuelPrices = {
-      E85: 3.25,
-      87: 3.10,
-      89: 3.40,
-      Diesel: 3.75,
-    };
-    onStationClick(fuelPrices); // Pass prices to parent component
+  const fetchGasStations = async () => {
+    try {
+      const response = await fetch(
+        'https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=fuel](around:5000,39.7392,-104.9903);out;'
+      );
+      const data = await response.json();
+      setStations(data.elements);
+
+      data.elements.forEach((station: Station) => {
+        const marker = new mapboxgl.Marker({ element: createIconElement(customGasIcon) })
+          .setLngLat([station.lon, station.lat])
+          .addTo(mapRef.current as mapboxgl.Map);
+
+        marker.getElement().addEventListener('click', () => {
+          handleStationClick({
+            E85: 3.25,
+            87: 3.10,
+            89: 3.40,
+            Diesel: 3.75,
+          });
+        });
+      });
+    } catch (err) {
+      console.error('Error fetching gas stations:', err);
+    }
+  };
+
+  const createIconElement = (iconData: { iconImage: string; iconSize: [number, number] }) => {
+    const el = document.createElement('div');
+    el.className = 'custom-marker';
+    el.style.backgroundImage = `url(${iconData.iconImage})`;
+    el.style.width = `${iconData.iconSize[0]}px`;
+    el.style.height = `${iconData.iconSize[1]}px`;
+    el.style.backgroundSize = 'cover';
+    return el;
+  };
+
+  const handleStationClick = (prices: Record<string, number>) => {
+    onStationClick(prices); // Pass prices to parent component
   };
 
   return (
     <article className="window-card" data-glow>
       <span data-glow />
-      {position ? (
-        <MapContainer
-          center={position as [number, number]}  // Ensure it's recognized as [number, number]
-          zoom={13}
-          style={{ height: '100%', width: '100%' }}  // Full height and width of the card
-        >
-          {/* Use Mapbox Dark Mode with more contrast */}
-          <TileLayer
-            url="https://api.mapbox.com/styles/v1/mapbox/navigation-night-v1/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoieW9ldm0iLCJhIjoiY20xeW1wNG9sMGJmZzJxb2g2aDVoaXdwdyJ9.a1Zzrl7f94l0Uzix36S4ig"
-            attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a>'
-          />
-
-          {/* User's current location marker */}
-          <Marker position={position} icon={customIcon}>
-            <Popup>{title}</Popup>
-          </Marker>
-
-          {/* Display gas stations as markers with custom icon */}
-          {stations.map((station, index) => (
-            <Marker
-              key={index}
-              position={[station.lat, station.lon]}
-              icon={gasStationIcon} // Custom gas station icon
-              eventHandlers={{
-                click: () => handleStationClick(station), // When station marker is clicked
-              }}
-            >
-              <Popup>{station.tags.name || 'Gas Station'}</Popup>
-            </Marker>
-          ))}
-        </MapContainer>
-      ) : (
-        <p>Loading map...</p>
-      )}
+      <div ref={mapContainerRef} style={{ height: '400px', width: '100%' }}></div>
     </article>
   );
 };
