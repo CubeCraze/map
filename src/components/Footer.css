@@ -14,40 +14,7 @@
   align-items: center; /* Center everything horizontally */
   box-sizing: border-box;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  max-height: 15%;
   z-index: 1;
   overflow: hidden;
-}
-
-.ticks-container {
-  width: 100%; /* Ensure full width */
-  height: 40px; /* Fixed height for ticks */
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center;
-}
-
-
-.wallet-component {
-  width: 100%; /* Full width of the footer */
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.account-component {
-  height: 60px;
-  background-color: #333;
-  color: white;
-  border-top: 1px solid #444;
-  left: -5%; 
-}
-
-.wallet-component {
-  height: 30px;
-  background-color: #222;
-  color: white;
-  border-top: 1px solid #333;
-  left: -5%; 
 }

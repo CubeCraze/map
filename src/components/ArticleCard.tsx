@@ -1,6 +1,11 @@
 import React from 'react';
 
-const ArticleCard = ({ imgSrc, altText }) => {
+interface ArticleCardProps {
+  imgSrc: string;
+  altText: string;
+}
+
+const ArticleCard: React.FC<ArticleCardProps> = ({ imgSrc, altText }) => {
   return (
     <article className="article-card" data-glow>
       <img src={imgSrc} alt={altText} className="article-image" />

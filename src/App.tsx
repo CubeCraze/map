@@ -62,8 +62,6 @@ function App() {
             <ArticleCard imgSrc="https://i.imgur.com/m9MDGBK.png" altText="Example Image 2" />
             <ArticleCard imgSrc="https://i.imgur.com/4dJlZ1q.png" altText="Example Image 3" />
             <ArticleCard imgSrc="https://i.imgur.com/p0t4nOy.png" altText="Example Image 4" />
-            <ArticleCard imgSrc="https://i.imgur.com/xqL3Cqw.png" altText="Example Image 5" />
-            <ArticleCard imgSrc="https://i.imgur.com/W1YHzkI.png" altText="Example Image 6" />
           </div>
         </div>
       </main>
