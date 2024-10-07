@@ -85,7 +85,7 @@
   justify-content: center;
   margin: 1px; /* Add margin to space out the cards */
   padding: 10px;
-  margin-top: -10px;
+  margin-top: 20px;
   margin-bottom: 215px;
   color: white;
 }
@@ -160,14 +160,15 @@ main {
   text-align: center;
 }
 
+
 .article-card .fuel-type {
-  font-size: 1.2rem;
-  font-weight: 8800; /* Slightly bolder for emphasis */
+  font-size: 3.2rem;
+  font-weight: 10000; /* Slightly bolder for emphasis */
   color: #f50000; /* Light grey for contrast */
 }
 
 .article-card .price {
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: 1400;
   margin-top: 20px;
   color: #a0a0a0; /* Softer grey for the price */

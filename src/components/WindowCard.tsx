@@ -65,7 +65,11 @@ const WindowCard: React.FC<WindowCardProps> = ({ title, onStationClick }) => {
           zoom={13}
           style={{ height: '100%', width: '100%' }}  // Full height and width of the card
         >
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          {/* Use Mapbox Dark Mode with more contrast */}
+          <TileLayer
+            url="https://api.mapbox.com/styles/v1/mapbox/navigation-night-v1/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoieW9ldm0iLCJhIjoiY20xeW1wNG9sMGJmZzJxb2g2aDVoaXdwdyJ9.a1Zzrl7f94l0Uzix36S4ig"
+            attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a>'
+          />
 
           {/* User's current location marker */}
           <Marker position={position} icon={customIcon}>
