@@ -42,6 +42,7 @@ const WindowCard: React.FC<WindowCardProps> = ({ title, onStationClick }) => {
 
     mapRef.current.on('load', () => {
       fetchGasStations(); // Fetch gas stations data when the map is loaded
+      hideRoadNumbers();  // Hide the road numbers when map is loaded
     });
 
     return () => {
@@ -51,7 +52,20 @@ const WindowCard: React.FC<WindowCardProps> = ({ title, onStationClick }) => {
     };
   }, []);
 
+  const hideRoadNumbers = () => {
+    if (!mapRef.current) return; // Null check
+
+    const roadLayers = ['road-label', 'road-number-shield'];
+    roadLayers.forEach((layer) => {
+      if (mapRef.current?.getLayer(layer)) {
+        mapRef.current.setLayoutProperty(layer, 'visibility', 'none');
+      }
+    });
+  };
+
   const fetchGasStations = async () => {
+    if (!mapRef.current) return;  // Null check
+
     try {
       const response = await fetch(
         'https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=fuel](around:5000,39.7392,-104.9903);out;'
@@ -62,7 +76,7 @@ const WindowCard: React.FC<WindowCardProps> = ({ title, onStationClick }) => {
       data.elements.forEach((station: Station) => {
         const marker = new mapboxgl.Marker({ element: createIconElement(customGasIcon) })
           .setLngLat([station.lon, station.lat])
-          .addTo(mapRef.current as mapboxgl.Map);
+          .addTo(mapRef.current as mapboxgl.Map);  // Null check ensures mapRef.current is not null
 
         marker.getElement().addEventListener('click', () => {
           handleStationClick({
