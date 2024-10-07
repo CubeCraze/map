@@ -1,7 +1,7 @@
 .content {
   margin-left: 100px; /* Adjust margin to account for left sidebar width */
   margin-right: 80px; /* Adjust margin to account for right sidebar width */
-  width: calc(100% - 140px); /* Adjust width to account for both sidebars */
+  width: calc(100% - 120px); /* Adjust width to account for both sidebars */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,14 +12,14 @@
 .window-row {
   display: flex;
   justify-content: center;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
   width: 100%;
 }
 
 .window-card {
   width: 100%; /* Ensure the window card fits within the content area */
-  max-width: 900px; 
-  height: 350px; /* Set height to match the carousel */
+  max-width: 1200px; 
+  height: 450px; /* Set height to match the carousel */
   background-color: transparent;
   z-index: 2;
 }
@@ -64,9 +64,9 @@
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
-  width: 920px;
+  width: 1200px;
   height: 100px;
-  margin-top: 3px; 
+  margin-top: 100px; 
   margin-bottom: 6px;
 }
 
@@ -79,7 +79,7 @@
   background-color: #111827;
   height: 100px; /* Increase height */
   max-width: 200px;
-  width: 200px; /* Ensure the card width is consistent */
+  width: 300px; /* Ensure the card width is consistent */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,9 +118,9 @@ main {
 }
 
 .window-card {
-  width: 880px; /* Ensure the window card fits within the content area */
-  height: 340px; /* Set height to match the carousel */
-  margin-top: -2;
+  width: 1200px; /* Ensure the window card fits within the content area */
+  height: 450px; /* Set height to match the carousel */
+  margin-top: 100;
   background-color: transparent;
 }
 
@@ -136,9 +136,9 @@ main {
   border-radius: calc(var(--radius) * 1px);
   border: var(--border-size) solid var(--backup-border);
   background-color: #111827;
-  height: 100px; /* Increase height */
-  max-width: 200px;
-  width: 200px; /* Ensure the card width is consistent */
+  height: 120px; /* Increase height */
+  max-width: 300px;
+  width: 300px; /* Ensure the card width is consistent */
   display: flex;
   flex-direction: column;
   align-items: center;
