@@ -33,7 +33,7 @@ const WindowCard: React.FC<WindowCardProps> = ({ title, onStationClick }) => {
     // Initialize the Mapbox map inside WindowCard
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: 'mapbox://styles/mapbox/dark-v10',
+      style: 'mapbox://styles/mapbox/navigation-night-v1',
       center: [-104.9903, 39.7392],
       zoom: 12,
       pitch: 60,
