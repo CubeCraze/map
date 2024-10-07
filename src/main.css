@@ -9,11 +9,22 @@
   justify-content: center;
 }
 
+
+/* Adjust Leaflet controls z-index */
+.leaflet-control {
+  z-index: 1; /* Set a lower z-index so they appear under other elements */
+}
+
+.leaflet-control-attribution {
+  z-index: 1; /* Lower the attribution logo's z-index */
+}
+
+
 /* Window cards row specific styles */
 .window-row {
   display: flex;
   justify-content: center;
-  margin-bottom: 150px;
+  margin-bottom: 120px;
   width: 100%;
 }
 
@@ -65,7 +76,7 @@
   border-radius: calc(var(--radius) * 1px);
   border: var(--border-size) solid var(--backup-border);
   background-color: #111827;
-  height: 100px; /* Increase height */
+  height: 200px; /* Increase height */
   max-width: 200px;
   width: 200px; /* Ensure the card width is consistent */
   display: flex;
@@ -91,93 +102,6 @@
 }
 
 
-
-/* Glow specific styles */
-[data-glow] {
-  --border-size: calc(var(--border, 2) * 1px);
-  --hue: calc(var(--base) + (var(--xp, 0) * var(--spread, 0)));
-  background-image: radial-gradient(
-    var(--spotlight-size) var(--spotlight-size) at
-    calc(var(--x, 0) * 1px)
-    calc(var(--y, 0) * 1px),
-    hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--bg-spot-opacity, 0.1)), transparent
-  );
-  background-color: var(--backdrop, transparent);
-  background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
-  background-position: 50% 50%;
-  background-attachment: fixed;
-  background-color: #111827;
-  border: var(--border-size) solid var(--backup-border);
-  position: relative;
-  touch-action: none;
-}
-
-/* Remove the ::before pseudo-element styles */
-[data-glow]::after {
-  pointer-events: none;
-  content: "";
-  position: absolute;
-  inset: calc(var(--border-size) * -1);
-  border: var(--border-size) solid transparent;
-  border-radius: calc(var(--radius) * 1px);
-  background-attachment: fixed;
-  background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  mask:
-    linear-gradient(transparent, transparent),
-    linear-gradient(white, white);
-  mask-clip: padding-box, border-box;
-  mask-composite: intersect;
-}
-
-/* This is the spotlight */
-[data-glow]::after {
-  background-image: radial-gradient(
-    calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
-    calc(var(--x, 0) * 1px)
-    calc(var(--y, 0) * 1px),
-    hsl(0 100% 100% / var(--border-light-opacity, 1)), transparent 100%
-  );
-}
-
-[data-glow] > [data-glow]:not(:is(a, button)) {
-  position: absolute;
-  inset: 0;
-  will-change: filter;
-  opacity: var(--outer, 1);
-}
-
-[data-glow] > [data-glow]:not(:is(a, button)) {
-  border-radius: calc(var(--radius) * 1px);
-  border-width: calc(var(--border-size) * 20);
-  filter: blur(calc(var(--border-size) * 10));
-  background: none;
-  pointer-events: none;
-}
-
-[data-glow] > [data-glow]:not(:is(a, button))::before {
-  inset: -10px;
-  border-width: 10px;
-}
-
-[data-glow] > [data-glow] {
-  border: none;
-}
-
-[data-glow] :is(a, button) {
-  border-radius: calc(var(--radius) * 1px);
-  border: var(--border-size) solid transparent;
-}
-
-[data-glow] :is(a, button) [data-glow] {
-  background: none;
-}
-
-[data-glow] :is(a, button) [data-glow]::before {
-  inset: calc(var(--border-size) * -1);
-  border-width: calc(var(--border-size) * 1);
-}
 
 .wrapper {
   position: relative;
