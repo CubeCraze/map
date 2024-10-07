@@ -9,8 +9,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ fuelType, price }) => {
   return (
     <article className="article-card" data-glow>
       <div>
-        <p>{fuelType}</p>
-        {price !== null ? <p>Price: ${price.toFixed(2)}</p> : <p>--</p>}
+        <p className="fuel-type">{fuelType}</p>
+        {price !== null ? <p className="price">Price: ${price.toFixed(2)}</p> : <p className="price">--</p>}
       </div>
       <span data-glow />
     </article>
@@ -18,3 +18,4 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ fuelType, price }) => {
 };
 
 export default ArticleCard;
+

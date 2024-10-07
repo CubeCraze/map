@@ -128,3 +128,47 @@ main {
 .article-card:hover {
   background-color: hsl(0 0% 20%);
 }
+
+.article-card {
+  --radius: 15;
+  --border: 5;
+  --size: 100;
+  border-radius: calc(var(--radius) * 1px);
+  border: var(--border-size) solid var(--backup-border);
+  background-color: #111827;
+  height: 100px; /* Increase height */
+  max-width: 200px;
+  width: 200px; /* Ensure the card width is consistent */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1px; /* Add margin to space out the cards */
+  padding: 10px;
+  margin-top: 30px;
+  margin-bottom: 255px;
+  color: white;
+  font-family: 'Poppins', sans-serif; /* Modern clean font */
+}
+
+.article-card:hover {
+  background-color: hsl(0 0% 20%);
+}
+
+.article-card p {
+  margin: 0;
+  text-align: center;
+}
+
+.article-card .fuel-type {
+  font-size: 1.2rem;
+  font-weight: 8800; /* Slightly bolder for emphasis */
+  color: #f50000; /* Light grey for contrast */
+}
+
+.article-card .price {
+  font-size: 1rem;
+  font-weight: 1400;
+  margin-top: 20px;
+  color: #a0a0a0; /* Softer grey for the price */
+}

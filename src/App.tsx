@@ -29,9 +29,6 @@ function App() {
         <LeftSidebar />
         <RightSidebar />
         <div className="content">
-          <button style={{ marginBottom: '20px', marginTop: '20px' }}>
-            Hide Map
-          </button>
           <div className="window-row" style={{ height: '400px', overflow: 'hidden' }}>
             <WindowCard title="Your Location Map" onStationClick={handleStationClick} />
           </div>
