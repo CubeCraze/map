@@ -1,8 +1,8 @@
 
 .content {
-  margin-left: 80px; /* Adjust margin to account for left sidebar width */
+  margin-left: 100px; /* Adjust margin to account for left sidebar width */
   margin-right: 80px; /* Adjust margin to account for right sidebar width */
-  width: calc(100% - 160px); /* Adjust width to account for both sidebars */
+  width: calc(100% - 140px); /* Adjust width to account for both sidebars */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,51 +17,6 @@
   width: 100%;
 }
 
-/* Carousel specific styles */
-.carousel {
-  display: flex;
-  justify-content: center;
-  max-width: 1000px; 
-  height: 350px;
-  position: relative; /* Needed for absolute positioning of arrows */
-}
-
-.carousel-content {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-  transform: translateX(calc(-100% * var(--current-index, 0)));
-}
-
-.carousel-slide {
-  min-width: 100%; /* Adjust slide width to match the carousel width */
-  height: 100%; /* Adjust slide height to match the carousel height */
-  display: none;
-}
-
-.carousel-slide.active {
-  display: block;
-}
-
-.carousel-button {
-  position: absolute;
-  top: 60%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  border: none;
-  color: white;
-  padding: 1rem;
-  cursor: pointer;
-  z-index: 10; /* Ensure buttons are on top */
-}
-
-.carousel-button.prev {
-  left: -30px; /* Adjust to position it at the left edge of the carousel */
-}
-
-.carousel-button.next {
-  right: -30px; /* Adjust to position it at the right edge of the carousel */
-}
-
 .window-card {
   width: 100%; /* Ensure the window card fits within the content area */
   max-width: 900px; 
@@ -69,10 +24,6 @@
   background-color: transparent;
 }
 
-.window-card iframe {
-  width: 100%; /* Ensure iframes fill the window card */
-  height: 100%; /* Ensure iframes fill the window card */
-}
 
 /* Additional CSS as needed for other elements */
 :root {
@@ -92,7 +43,7 @@
   background-color: transparent;
   height: 100%;
   width: 100%; /* Add a max-width to prevent the card from becoming too wide */
-  border-color: #6600CC; /* Always highlighted in pink */
+
 }
 
 .cards-row {
@@ -103,7 +54,7 @@
   justify-content: center;
   width: 920px;
   height:50px;
-  margin-top: -2px; 
+  margin-top: 2px; 
   margin-bottom: 6px;
 }
 
@@ -122,16 +73,17 @@
   justify-content: center;
   margin: 1px; /* Add margin to space out the cards */
   padding: 10px;
-  margin-top: -30px;
+  margin-top: 30px;
   margin-bottom: 255px;
+  color: white;
 }
 
 .article-card:hover {
-  border-color: #6600CC;
+
   background-color: hsl(0 0% 20%);
 }
 
-.article-card .article-image {
+.article-card  {
   width: 120%; /* Adjust width */
   height: 125%; /* Adjust height */
   object-fit: cover; /* Ensure the image covers the area */
@@ -250,11 +202,10 @@ main {
   height: 340px; /* Set height to match the carousel */
   margin-top: -2;
   background-color: transparent;
-  border-color: #6600CC; /* Always highlighted in pink */
+
 }
 
 /* Additional hover effects for cards */
 .article-card:hover {
-  border-color: #6600CC;
   background-color: hsl(0 0% 20%);
 }
