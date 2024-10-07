@@ -3,22 +3,28 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Create a custom icon
+// Custom marker for user's location
 const customIcon = new L.Icon({
-  iconUrl: 'https://i.imgur.com/Ry2zCfB.png', // Replace with your custom icon URL
-  iconSize: [40, 40], // Size of the icon
-  iconAnchor: [20, 40], // Point of the icon which will correspond to marker's location
-  popupAnchor: [0, -40], // Point from which the popup should open relative to the iconAnchor
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', // Optional shadow
-  shadowSize: [50, 64], // Shadow size
-  shadowAnchor: [4, 62], // Shadow anchor
+  iconUrl: 'https://i.imgur.com/lnbx41i.png', // Replace with your custom user icon URL
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+  popupAnchor: [0, -40],
+});
+
+// Custom marker for gas stations
+const gasStationIcon = new L.Icon({
+  iconUrl: 'https://i.imgur.com/2HImCfx.png', // Custom gas station icon URL
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+  popupAnchor: [0, -40],
 });
 
 interface WindowCardProps {
   title: string;
+  onStationClick: (prices: any) => void; // Callback to send fuel prices to parent
 }
 
-const WindowCard: React.FC<WindowCardProps> = ({ title }) => {
+const WindowCard: React.FC<WindowCardProps> = ({ title, onStationClick }) => {
   const [position, setPosition] = useState<[number, number] | null>(null);
   const [stations, setStations] = useState<any[]>([]);
 
@@ -39,6 +45,17 @@ const WindowCard: React.FC<WindowCardProps> = ({ title }) => {
     });
   }, []);
 
+  const handleStationClick = (station: any) => {
+    // Mock fuel prices for each station (replace with real API call)
+    const fuelPrices = {
+      E85: 3.25,
+      87: 3.10,
+      89: 3.40,
+      Diesel: 3.75,
+    };
+    onStationClick(fuelPrices); // Pass prices to parent component
+  };
+
   return (
     <article className="window-card" data-glow>
       <span data-glow />
@@ -49,22 +66,25 @@ const WindowCard: React.FC<WindowCardProps> = ({ title }) => {
           style={{ height: '100%', width: '100%' }}  // Full height and width of the card
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          
-          {/* User's custom location marker */}
+
+          {/* User's current location marker */}
           <Marker position={position} icon={customIcon}>
             <Popup>{title}</Popup>
           </Marker>
 
-          {/* Display gas stations as markers */}
+          {/* Display gas stations as markers with custom icon */}
           {stations.map((station, index) => (
             <Marker
               key={index}
               position={[station.lat, station.lon]}
+              icon={gasStationIcon} // Custom gas station icon
+              eventHandlers={{
+                click: () => handleStationClick(station), // When station marker is clicked
+              }}
             >
               <Popup>{station.tags.name || 'Gas Station'}</Popup>
             </Marker>
           ))}
-
         </MapContainer>
       ) : (
         <p>Loading map...</p>

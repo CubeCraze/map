@@ -9,10 +9,16 @@ import DropDownPanel from './components/DropDownPanel';
 import './main.css';
 
 function App() {
-  const [showMap, setShowMap] = useState(true);
+  const [fuelPrices, setFuelPrices] = useState({
+    E85: null,
+    87: null,
+    89: null,
+    Diesel: null,
+  });
 
-  const toggleMap = () => {
-    setShowMap(!showMap);
+  // Update the fuel prices when a station is clicked
+  const handleStationClick = (prices: any) => {
+    setFuelPrices(prices);
   };
 
   return (
@@ -23,20 +29,18 @@ function App() {
         <LeftSidebar />
         <RightSidebar />
         <div className="content">
-          <button onClick={toggleMap} style={{ marginBottom: '20px', marginTop: '20px' }}>
-            {showMap ? 'Hide Map' : 'Show Map'}
+          <button style={{ marginBottom: '20px', marginTop: '20px' }}>
+            Hide Map
           </button>
-          <div className="window-row" style={{ height: '400px', overflow: 'hidden' }}> {/* Set height to 400px */}
-            {showMap && (
-              <WindowCard title="Your Location Map" />
-            )}
+          <div className="window-row" style={{ height: '400px', overflow: 'hidden' }}>
+            <WindowCard title="Your Location Map" onStationClick={handleStationClick} />
           </div>
           <div className="cards-row">
-            {/* Fuel Price ArticleCards */}
-            <ArticleCard fuelType="E85" />
-            <ArticleCard fuelType="87" />
-            <ArticleCard fuelType="89" />
-            <ArticleCard fuelType="Diesel" />
+            {/* Fuel Price ArticleCards, passing in the respective prices */}
+            <ArticleCard fuelType="E85" price={fuelPrices.E85} />
+            <ArticleCard fuelType="87" price={fuelPrices[87]} />
+            <ArticleCard fuelType="89" price={fuelPrices[89]} />
+            <ArticleCard fuelType="Diesel" price={fuelPrices.Diesel} />
           </div>
         </div>
       </main>
